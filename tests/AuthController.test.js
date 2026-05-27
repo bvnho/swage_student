@@ -111,6 +111,18 @@ describe('logout', () => {
   });
 });
 
+describe('showProfile', () => {
+  test('renders profile with user and cart count', () => {
+    const req = { session: { user: { id: 1, name: 'Alice' } } };
+    const res = mockRes();
+    authCtrl.showProfile(req, res);
+    expect(res.render).toHaveBeenCalledWith('profile', expect.objectContaining({
+      user:      req.session.user,
+      cartCount: 0,
+    }));
+  });
+});
+
 describe('register', () => {
   test('renders error when fields missing', () => {
     const req = { session: {}, body: { name: '', email: '', password: '', address: '' } };

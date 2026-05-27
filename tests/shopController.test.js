@@ -58,6 +58,14 @@ describe('showShop', () => {
     expect(prices).toEqual([...prices].sort((a, b) => a - b));
   });
 
+  test('sorts by name alphabetically', () => {
+    const req = { session: {}, query: { sort: 'name' } };
+    const res = mockRes();
+    shopCtrl.showShop(req, res);
+    const names = res.render.mock.calls[0][1].products.map(p => p.name);
+    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
+  });
+
   test('sorts by price descending', () => {
     const req = { session: {}, query: { sort: 'price-desc' } };
     const res = mockRes();

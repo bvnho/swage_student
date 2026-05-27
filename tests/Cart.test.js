@@ -81,6 +81,13 @@ describe('Cart.updateQty()', () => {
     c.updateQty(P1.id, 0);
     expect(c.count).toBe(0);
   });
+  test('no-ops when updating qty for a product not in cart', () => {
+    const c = new Cart();
+    c.add(P1, 2);
+    c.updateQty(P2.id, 5); // P2 is not in cart
+    expect(c.count).toBe(2); // P1 qty unchanged
+  });
+
   test('removes item when qty is negative', () => {
     const c = new Cart();
     c.add(P1);

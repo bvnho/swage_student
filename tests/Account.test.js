@@ -111,6 +111,21 @@ describe('Account.authenticate()', () => {
   });
 });
 
+// ── verifyPassword (SHA-256 legacy path) ─────────────────────
+describe('Account.verifyPassword() – SHA-256 legacy hash', () => {
+  test('accepts old sha256 hex hash', () => {
+    const crypto = require('crypto');
+    const hash = crypto.createHash('sha256').update('mypass').digest('hex');
+    expect(Account.verifyPassword('mypass', hash)).toBe(true);
+  });
+
+  test('rejects wrong password against sha256 hash', () => {
+    const crypto = require('crypto');
+    const hash = crypto.createHash('sha256').update('mypass').digest('hex');
+    expect(Account.verifyPassword('wrongpass', hash)).toBe(false);
+  });
+});
+
 // ── update ───────────────────────────────────────────────────
 describe('Account.update()', () => {
   test('updates account fields', () => {
